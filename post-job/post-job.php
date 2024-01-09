@@ -112,14 +112,14 @@
                 <label for="job-region">Job Region</label>
                 <select name="job_region" class="selectpicker border rounded" id="job-region" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Region">
                       <option>Anywhere</option>
-                      <option>San Francisco</option>
-                      <option>Palo Alto</option>
-                      <option>New York</option>
-                      <option>Manhattan</option>
-                      <option>Ontario</option>
-                      <option>Toronto</option>
-                      <option>Kansas</option>
-                      <option>Mountain View</option>
+                      <option>Ghana</option>
+                      <option>Nigeria</option>
+                      <option>South Africa</option>
+                      <option>Tunisia</option>
+                      <option>Mauritius</option>
+                      <option>Madagascar</option>
+                      <option>Kenya</option>
+                      <option>Tanzania</option>
                     </select>
               </div>
 
@@ -162,7 +162,7 @@
 
               <div class="form-group">
                 <label for="job-location">Application Deadline</label>
-                <input name="application_deadline" type="text" class="form-control" id="" placeholder="e.g. 20-12-2022">
+                <input name="application_deadline" type="text" class="form-control" id="" placeholder="e.g. 20-12-2023">
               </div>
 
               <div class="row form-group">
