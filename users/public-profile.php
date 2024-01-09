@@ -14,7 +14,7 @@
 
         //jobs created by this company
 
-        $jobs = $conn->query("SELECT * FROM jobs WHERE company_id = '$id'");
+        $jobs = $conn->query("SELECT * FROM jobs WHERE company_id = '$id' AND status = 1 LIMIT 5");
         $jobs->execute();
         $moreJob = $jobs->fetchAll(PDO::FETCH_OBJ);
 
@@ -97,7 +97,7 @@
         <ul class="job-listings mb-5">
           <?php foreach($moreJob as $oneJob) : ?>
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
+          <a href="<?php echo APPURL; ?> jobs/job-single.php?id=<?php echo $oneJob->id; ?>"></a>
             <div class="job-listing-logo">
               <img src="user-images/<?php echo $_SESSION['image']; ?>" alt="Free Website Template by Free-Template.co" class="img-fluid">
             </div>
@@ -116,6 +116,7 @@
             </div>
             
           </li>
+          <br>
           <?php endforeach; ?>
           </ul>
       </div>
