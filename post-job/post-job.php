@@ -1,7 +1,12 @@
 <?php require "../includes/header.php"; ?>
 <?php require "../config/config.php"; ?>
 
-<?php 
+<?php
+
+     if(isset($_SESSION['type']) AND $_SESSION['type'] !== "Company") {
+      header("location: ".APPURL."");
+      
+     }
 
     if(isset($_POST['submit'])) {
 
