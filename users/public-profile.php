@@ -97,7 +97,7 @@
         <ul class="job-listings mb-5">
           <?php foreach($moreJob as $oneJob) : ?>
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-          <a href="<?php echo APPURL; ?> jobs/job-single.php?id=<?php echo $oneJob->id; ?>"></a>
+            <a href="<?php echo APPURL; ?>/jobs/job-single.php?id=<?php echo $oneJob->id; ?>"></a>
             <div class="job-listing-logo">
               <img src="user-images/<?php echo $_SESSION['image']; ?>" alt="Free Website Template by Free-Template.co" class="img-fluid">
             </div>
@@ -111,7 +111,7 @@
                 <span class="icon-room"></span> <?php echo $oneJob->job_region; ?>
               </div>
               <div class="job-listing-meta">
-                <span class="badge badge-danger"><?php echo $oneJob->job_type; ?></span>
+                <span class="badge badge-<?php if($oneJob->job_type == 'Part Time') { echo 'danger' ; } else { echo 'success' ; } ?>"><?php echo $oneJob->job_type; ?></span>
               </div>
             </div>
             
