@@ -1,25 +1,46 @@
 <?php require "../includes/header.php"; ?>
 <?php require "../config/config.php"; ?>
 
-<?php
+<?php 
 
-     if(isset($_SESSION['type']) AND $_SESSION['type'] !== "Company") {
+
+
+    if(isset($_SESSION['type']) AND $_SESSION['type'] !== "Company") {
 
       header("location: ".APPURL."");
+      
+    } 
 
-     }
 
-     $get_categories = $conn->query("SELECT * FROM categories");
-     $get_categories->execute();
+    $get_categories = $conn->query("SELECT * FROM categories");
+    $get_categories->execute();
 
-     $get_category = $get_categories->fetchAll(PDO::FETCH_OBJ);
+    $get_category = $get_categories->fetchAll(PDO::FETCH_OBJ);
+
+    if(isset($_GET['id'])) {
+        $id = $_GET['id'];
+
+
+        $select = $conn->query("SELECT * FROM jobs WHERE id = '$id'");
+        $select->execute();
+
+        $singleJob = $select->fetch(PDO::FETCH_OBJ);
+
+        if(isset($_SESSION['id']) AND $singleJob->company_id !== $_SESSION['id']) {
+            header("location: ".APPURL."");
+        }
+
+
+    } else {
+        echo "404";
+    }
 
     if(isset($_POST['submit'])) {
 
       if(empty($_POST['job_title']) OR empty($_POST['job_region']) OR empty($_POST['job_type']) OR empty($_POST['vacancy']) OR empty($_POST['experience']) 
       OR empty($_POST['salary']) OR empty($_POST['gender']) OR empty($_POST['application_deadline']) OR empty($_POST['job_description']) OR empty($_POST['responsibilities']) 
-      OR empty($_POST['education_experience']) OR empty($_POST['other_benifits']) OR empty($_POST['company_email']) OR empty($_POST['company_name']) OR empty($_POST['company_id']) OR empty($_POST['company_image']) 
-      OR empty($_POST['job_category'])
+      OR empty($_POST['education_experience']) OR empty($_POST['other_benefits']) OR empty($_POST['company_email']) OR empty($_POST['company_name']) OR empty($_POST['company_id']) OR empty($_POST['company_image']
+      OR empty($_POST['job_category'])) 
       ) {
         echo "<script>alert('one or more inputs are empty')</script>";
       } else {
@@ -36,20 +57,19 @@
         $job_description = $_POST['job_description'];
         $responsibilities = $_POST['responsibilities'];
         $education_experience = $_POST['education_experience'];
-        $other_benifits = $_POST['other_benifits'];
+        $other_benefits = $_POST['other_benefits'];
         $company_email = $_POST['company_email'];
         $company_name = $_POST['company_name'];
         $company_id = $_POST['company_id'];
         $company_image = $_POST['company_image'];
 
 
-        $insert = $conn->prepare("INSERT INTO jobs (job_title, job_region, job_type, vacancy, job_category, experience, salary, gender, application_deadline,
-         job_description, responsibilities, education_experience, other_benifits, company_email, company_name, company_id, company_image) VALUES(
-          :job_title, :job_region, :job_type, :vacancy, :job_category, :experience, :salary, :gender, :application_deadline,
-          :job_description, :responsibilities, :education_experience, :other_benifits,  :company_email, :company_name, :company_id, :company_image
-         )");
+        $update = $conn->prepare("UPDATE jobs SET job_title = :job_title, job_region = :job_region, job_type = :job_type, vacancy = :vacancy,
+         job_category = :job_category, experience = :experience, salary = :salary, gender = :gender, application_deadline = :application_deadline,
+         job_description = :job_description, responsibilities = :responsibilities, education_experience = :education_experience, other_benefits = :other_benefits,
+          company_email = :company_email, company_name = :company_name, company_id = :company_id, company_image = :company_image WHERE id='$id'");
 
-         $insert->execute([
+         $update->execute([
 
           ':job_title' => $job_title,
           ':job_region' => $job_region,
@@ -63,7 +83,7 @@
           ':job_description' => $job_description,
           ':responsibilities' => $responsibilities,
           ':education_experience' => $education_experience,
-          ':other_benifits' => $other_benifits,
+          ':other_benefits' => $other_benefits,
           ':company_email' => $company_email,
           ':company_name' => $company_name,
           ':company_id' => $company_id,
@@ -71,7 +91,7 @@
 
          ]);
 
-         header("location: ".APPURL."/jobs/post-job.php");
+         header("location: ".APPURL."/jobs/update-job.php?id=".$id."");
         
       }
     }
@@ -85,11 +105,11 @@
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <h1 class="text-white font-weight-bold">Post A Job</h1>
+            <h1 class="text-white font-weight-bold">Update A Job</h1>
             <div class="custom-breadcrumbs">
-              <a href="#">Home</a> <span class="mx-2 slash">/</span>
+              <a href="<?php echo APPURL; ?>">Home</a> <span class="mx-2 slash">/</span>
               <a href="#">Job</a> <span class="mx-2 slash">/</span>
-              <span class="text-white"><strong>Post a Job</strong></span>
+              <span class="text-white"><strong>Update a Job</strong></span>
             </div>
           </div>
         </div>
@@ -104,7 +124,7 @@
           <div class="col-lg-8 mb-4 mb-lg-0">
             <div class="d-flex align-items-center">
               <div>
-                <h2>Post A Job</h2>
+                <h2>Update A Job</h2>
               </div>
             </div>
           </div>
@@ -112,13 +132,13 @@
         </div>
         <div class="row mb-5">
           <div class="col-lg-12">
-            <form class="p-4 p-md-5 border rounded" action="post-job.php" method="post">
+            <form class="p-4 p-md-5 border rounded" action="job-update.php?id=<?php echo $id; ?>" method="post">
             
               <!--job details-->
             
               <div class="form-group">
                 <label for="job-title">Job Title</label>
-                <input type="text" name="job_title" class="form-control" id="job-title" placeholder="Product Designer">
+                <input type="text" value="<?php echo $singleJob->job_title; ?>" name="job_title" class="form-control" id="job-title" placeholder="Product Designer">
               </div>
             
 
@@ -126,14 +146,14 @@
                 <label for="job-region">Job Region</label>
                 <select name="job_region" class="selectpicker border rounded" id="job-region" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Region">
                       <option>Anywhere</option>
-                      <option>Ghana</option>
-                      <option>Nigeria</option>
-                      <option>South Africa</option>
-                      <option>Tunisia</option>
-                      <option>Mauritius</option>
-                      <option>Madagascar</option>
-                      <option>Kenya</option>
-                      <option>Tanzania</option>
+                      <option>Accra</option>
+                      <option>Tema</option>
+                      <option>Ho</option>
+                      <option>Kumasi</option>
+                      <option>Wa</option>
+                      <option>Temale</option>
+                      <option>Hohoe</option>
+                      <option>Cape Coast</option>
                     </select>
               </div>
 
@@ -146,20 +166,16 @@
               </div>
               <div class="form-group">
                 <label for="job-location">Vacancy</label>
-                <input name="vacancy" type="text" class="form-control" id="job-location" placeholder="e.g. 3">
+                <input name="vacancy" value="<?php echo $singleJob->vacancy; ?>" type="text" class="form-control" id="job-location" placeholder="e.g. 3">
               </div>
-
               <div class="form-group">
                 <label for="job-type">Job Category</label>
-                <select name="job_category" class="selectpicker border rounded" id="job-type" data-style="btn-black" data-width="100%" data-live-search="true" title="Select job Category">
-                  <?php foreach($get_category as $category) : ?>
-                <option><?php echo $category->name; ?></option>
-
+                <select name="job_category" class="selectpicker border rounded" id="job-type" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Job Category">
+                 <?php foreach($get_category as $category) : ?>
+                  <option><?php echo $category->name; ?></option>
                 <?php endforeach; ?>
-                  
                 </select>
               </div>
-
               <div class="form-group">
                 <label for="job-type">Experience</label>
                 <select name="experience" class="selectpicker border rounded" id="job-type" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Years of Experience">
@@ -188,34 +204,34 @@
 
               <div class="form-group">
                 <label for="job-location">Application Deadline</label>
-                <input name="application_deadline" type="text" class="form-control" id="" placeholder="e.g. 20-12-2023">
+                <input value="<?php echo $singleJob->application_deadline; ?>" name="application_deadline" type="text" class="form-control" id="" placeholder="e.g. 20-12-2022">
               </div>
 
               <div class="row form-group">
                 <div class="col-md-12">
                   <label class="text-black" for="">Job Description</label> 
-                  <textarea name="job_description" id="" cols="30" rows="7" class="form-control" placeholder="Write Job Description..."></textarea>
+                  <textarea name="job_description" id="" cols="30" rows="7" class="form-control" placeholder="Write Job Description..."><?php echo $singleJob->job_description; ?></textarea>
                 </div>
               </div>
 
               <div class="row form-group">
                 <div class="col-md-12">
                   <label class="text-black" for="">Responsibilities</label> 
-                  <textarea name="responsibilities" id="" cols="30" rows="7" class="form-control" placeholder="Write Responsibilities..."></textarea>
+                  <textarea name="responsibilities" id="" cols="30" rows="7" class="form-control" placeholder="Write Responsibilities..."><?php echo $singleJob->responsibilities; ?></textarea>
                 </div>
               </div>
 
               <div class="row form-group">
                 <div class="col-md-12">
                   <label class="text-black" for="">Education & Experience</label> 
-                  <textarea name="education_experience" id="" cols="30" rows="7" class="form-control" placeholder="Write Education & Experience..."></textarea>
+                  <textarea name="education_experience" id="" cols="30" rows="7" class="form-control" placeholder="Write Education & Experience..."><?php echo $singleJob->education_experience; ?></textarea>
                 </div>
               </div>
 
               <div class="row form-group">
                 <div class="col-md-12">
                   <label class="text-black" for="">Other Benifits</label> 
-                  <textarea name="other_benifits" id="" cols="30" rows="7" class="form-control" placeholder="Write Other Benifits..."></textarea>
+                  <textarea name="other_benifits" id="" cols="30" rows="7" class="form-control" placeholder="Write Other Benifits..."><?php echo $singleJob->other_benefits; ?></textarea>
                 </div>
               </div>
            
@@ -239,7 +255,7 @@
               <div class="col-lg-4 ml-auto">
                   <div class="row">  
                     <div class="col-6">
-                      <input type="submit" name="submit" class="btn btn-block btn-primary btn-md" style="margin-left: 200px;" value="Save Job">
+                      <input type="submit" name="submit" class="btn btn-block btn-primary btn-md" style="margin-left: 200px;" value="Update Job">
                     </div>
                   </div>
               </div>
