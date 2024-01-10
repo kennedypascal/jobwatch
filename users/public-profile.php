@@ -40,7 +40,7 @@
         </div>
       </div>
     </section>
-<section class="site-section" style="" id="home-section">
+<section class="site-section" style="background-image: url('../images/hero_1.jpg');" id="home-section">
       <div class="container">
         <div class="row d-flex justify-content-center">
           <div class="col-md-7">
