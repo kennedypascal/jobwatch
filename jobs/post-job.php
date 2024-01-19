@@ -16,9 +16,9 @@
 
     if(isset($_POST['submit'])) {
 
-      if(empty($_POST['job_title']) OR empty($_POST['job_region']) OR empty($_POST['job_type']) OR empty($_POST['vacancy']) OR empty($_POST['experience']) 
+      if(empty($_POST['job_title']) OR empty($_POST['job_region']) OR empty($_POST['job_type']) OR empty($_POST['vacancy']) OR empty($_POST['job_category']) OR empty($_POST['experience']) 
       OR empty($_POST['salary']) OR empty($_POST['gender']) OR empty($_POST['application_deadline']) OR empty($_POST['job_description']) OR empty($_POST['responsibilities']) 
-      OR empty($_POST['education_experience']) OR empty($_POST['other_benifits']) OR empty($_POST['company_email']) OR empty($_POST['company_name']) OR empty($_POST['company_id']) OR empty($_POST['company_image']) 
+      OR empty($_POST['education_experience']) OR empty($_POST['other_benefits']) OR empty($_POST['company_email']) OR empty($_POST['company_name']) OR empty($_POST['company_id']) OR empty($_POST['company_image']) 
       OR empty($_POST['job_category'])
       ) {
         echo "<script>alert('one or more inputs are empty')</script>";
@@ -36,7 +36,7 @@
         $job_description = $_POST['job_description'];
         $responsibilities = $_POST['responsibilities'];
         $education_experience = $_POST['education_experience'];
-        $other_benifits = $_POST['other_benifits'];
+        $other_benifits = $_POST['other_benefits'];
         $company_email = $_POST['company_email'];
         $company_name = $_POST['company_name'];
         $company_id = $_POST['company_id'];
@@ -46,7 +46,7 @@
         $insert = $conn->prepare("INSERT INTO jobs (job_title, job_region, job_type, vacancy, job_category, experience, salary, gender, application_deadline,
          job_description, responsibilities, education_experience, other_benifits, company_email, company_name, company_id, company_image) VALUES(
           :job_title, :job_region, :job_type, :vacancy, :job_category, :experience, :salary, :gender, :application_deadline,
-          :job_description, :responsibilities, :education_experience, :other_benifits,  :company_email, :company_name, :company_id, :company_image
+          :job_description, :responsibilities, :education_experience, :other_benefits,  :company_email, :company_name, :company_id, :company_image
          )");
 
          $insert->execute([
@@ -63,7 +63,7 @@
           ':job_description' => $job_description,
           ':responsibilities' => $responsibilities,
           ':education_experience' => $education_experience,
-          ':other_benifits' => $other_benifits,
+          ':other_benifits' => $other_benefits,
           ':company_email' => $company_email,
           ':company_name' => $company_name,
           ':company_id' => $company_id,
@@ -214,7 +214,7 @@
 
               <div class="row form-group">
                 <div class="col-md-12">
-                  <label class="text-black" for="">Other Benifits</label> 
+                  <label class="text-black" for="">Other Benefits</label> 
                   <textarea name="other_benifits" id="" cols="30" rows="7" class="form-control" placeholder="Write Other Benifits..."></textarea>
                 </div>
               </div>

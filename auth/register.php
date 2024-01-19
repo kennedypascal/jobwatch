@@ -26,7 +26,7 @@ if(isset($_POST['submit'])) {
     //checking for password match
     if($password == $repassword) {
 
-      if(strlen($email) > 20 OR strlen($username) > 15 ) {
+      if(strlen($email) > 25 OR strlen($username) > 20 ) {
         echo "<script>alert('email or username is too long')</script>";
       } else {
 

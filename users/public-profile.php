@@ -20,7 +20,7 @@
 
 
     } else {
-        echo "404";
+        header("location: ".APPURL."/404.php");
     }
 
 
@@ -52,7 +52,7 @@
                     
                     <div class="text-center mt-3">
                         <?php if(isset( $_SESSION['type']) AND $_SESSION['type'] == 'Worker') :?>
-                            <a class="btn btn-success text-white" href="#" role="button" download>Download CV</a>
+                            <a class="btn btn-success text-white" href="<?php echo APPURL; ?>/users/user-cvs/<?php echo $profile->cv; ?>" role="button" download>Download CV</a>
                         <?php endif; ?>
                             <h5 class="mt-2 mb-0"><?php echo $profile->username; ?></h5>
                         <?php if(isset( $_SESSION['type']) AND $_SESSION['type'] == 'Worker') :?>
@@ -87,31 +87,32 @@
 
 <section class="site-section">
       <div class="container">
-
-        <div class="row mb-5 justify-content-center">
+                <?php if(isset($_SESSION['type']) AND $_SESSION['type'] == "Company" AND $_SESSION['id'] == $id) : ?>
+                <div class="row mb-5 justify-content-center">
           <div class="col-md-7 text-center">
             <h2 class="section-title mb-2">Jobs Posted by this Company</h2>
           </div>
         </div>
+        <?php endif; ?>
         
         <ul class="job-listings mb-5">
           <?php foreach($moreJob as $oneJob) : ?>
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
             <a href="<?php echo APPURL; ?>/jobs/job-single.php?id=<?php echo $oneJob->id; ?>"></a>
             <div class="job-listing-logo">
-              <img src="user-images/<?php echo $_SESSION['image']; ?>" alt="Free Website Template by Free-Template.co" class="img-fluid">
+              <img src="user-images/<?php echo $oneJob->company_image; ?>" alt="coming soon" class="img-fluid">
             </div>
 
             <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
               <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
                 <h2><?php echo $oneJob->job_title; ?></h2>
-                <strong><?php echo $_SESSION['username']; ?></strong>
+                <strong><?php echo $oneJob->company_name; ?></strong>
               </div>
               <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
                 <span class="icon-room"></span> <?php echo $oneJob->job_region; ?>
               </div>
               <div class="job-listing-meta">
-                <span class="badge badge-<?php if($job->job_type == 'Part Time') { echo 'danger' ; } else { echo 'success' ; } ?>"><?php echo $oneJob->job_type; ?></span>
+                <span class="badge badge-<?php if($oneJob->job_type == 'Part Time') { echo 'danger' ; } else { echo 'success' ; } ?>"><?php echo $oneJob->job_type; ?></span>
               </div>
             </div>
             

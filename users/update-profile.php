@@ -15,7 +15,7 @@
 
         if($_SESSION['id'] !== $id ) {
           
-          header("location: ".APPURL."");
+         // header("location: ".APPURL."");
           
         }
 
@@ -23,7 +23,7 @@
         $select->execute();
         $profile = $select->fetch(PDO::FETCH_OBJ);
 
-        if(isset($_post['submit'])) {
+        if(isset($_POST['submit'])) {
 
           if(empty($_POST['username']) OR empty($_POST['email'])) {
             echo "<script>alert('username or email is empty')</script>";
@@ -36,7 +36,8 @@
             $facebook = $_POST['facebook'];
             $twitter = $_POST['twitter'];
             $linkedin = $_POST['linkedin'];
-            // $img = $_FILES['img']['name'];
+            $img = $_FILES['img']['name'];
+            
              
             //condition ?  perform smth : perform smth else
             $profile->type == "Worker" ? $cv = $_FILES['cv']['name'] : $cv = 'NULL';
@@ -48,9 +49,11 @@
             
             
             if($img !== '' AND $cv !== '') {
+              //if($profile->$cv !== 'NULL' && file_exists(("user-cvs/" .$profile->$cv)) ) {
 
               unlink("user-images/".$profile->img."");
               unlink("user-cvs/".$profile->cv."");
+
               $update->execute([
                 ':username' => $username,
                 ':email' => $email,
@@ -80,15 +83,14 @@
             }
             
             if(move_uploaded_file($_FILES['img']['tmp_name'], $dir_img) AND move_uploaded_file($_FILES['cv']['tmp_name'], $dir_cv)) {
-              header("location: ".APPURL."");
+             // header("location: ".APPURL."");
             }
 
           }
         }
 
     } else {
-
-        echo "404";
+      header("location: ".APPURL."/404.php");
     }
 
 
@@ -122,22 +124,22 @@
                 </div>
                 <div class="col-md-6">
                   <label class="text-black" for="email">Email</label>
-                  <input type="email" id="email" value="<?php echo $profile->email; ?>" name="email" class="form-control">
+                  <input type="text" id="email" value="<?php echo $profile->email; ?>" name="email" class="form-control">
                 </div>
               </div>
 
-              <div class="row form-group">
+              <!--<div class="row form-group">
                 
                 <div class="col-md-12">
                   <label class="text-black" for="email">Email</label> 
                   <input type="email" id="email" class="form-control">
                 </div>
-              </div>
+              </div> -->
                 <?php if(isset($_SESSION['type']) AND $_SESSION['type'] == "Worker") : ?>
                       <div class="row form-group">
                                 
                         <div class="col-md-12">
-                       <!-- <label class="text-black" for="title">Title</label> --> 
+                        <label class="text-black" for="title">Title</label>  
                         <input type="text" id="" value="<?php echo $profile->title; ?>" name="title" class="form-control">
                       </div>
                             </div>
@@ -155,7 +157,7 @@
               <div class="row form-group">
                 <div class="col-md-12">
                   <label class="text-black" for="message">Bio</label> 
-                  <textarea name="bio" id="" value="" cols="30" rows="7" name="bio" class="form-control" placeholder="Enter bio here" ><?php echo $profile->bio; ?></textarea>
+                  <textarea id="" value="" cols="30" rows="7" name="bio" class="form-control" placeholder="Enter bio here" ><?php echo $profile->bio; ?></textarea>
                 </div>
               </div> 
 

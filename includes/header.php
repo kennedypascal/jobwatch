@@ -60,11 +60,15 @@
               <li><a href="<?php echo APPURL; ?>" class="nav-link active">Home</a></li>
               <li><a href="<?php echo APPURL; ?>/about.php">About</a></li>
               <li><a href="<?php echo APPURL; ?>/contact.php">Contact</a></li>
+              <li><a href="<?php echo APPURL; ?>/general/workers.php">Workers</a></li>
+              <li><a href="<?php echo APPURL; ?>/general/companies.php">Companies</a></li>
 
 
               <?php if(isset($_SESSION['username'])) : ?>
+                <?php if(isset($_SESSION['type']) AND $_SESSION['type'] == "Company") : ?>
                   <li class="d-lg-none"><a href="post-job.html"><span class="mr-2">+</span> Post a Job</a></li>
                   <a href="<?php echo APPURL; ?>/jobs/post-job.php" class="btn btn-outline-white border-width-2 d-none d-lg-inline-block"><span class="mr-2 icon-add"></span>Post a Job</a>
+                  <?php endif; ?>
               <!-- <li><a href="contact.html"><?php echo $_SESSION['username']; ?></a></li>
                    <li><a href="<?php echo APPURL; ?>/auth/logout.php">logout</a></li> -->
                   <li class="nav-item dropdown">
@@ -74,6 +78,12 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item" href="<?php echo APPURL; ?>/users/public-profile.php?id=<?php echo $_SESSION['id']; ?>">Public profile</a>
                       <a class="dropdown-item" href="<?php echo APPURL; ?>/users/update-profile.php?upd_id=<?php echo $_SESSION['id']; ?>">Update profile</a>
+                      <?php if(isset($_SESSION['type']) AND $_SESSION['type'] == "Worker") : ?>
+                      <a class="dropdown-item" href="<?php echo APPURL; ?>/users/saved_jobs.php?id=<?php echo $_SESSION['id']; ?>">Saved Jobs</a>
+                      <?php endif; ?>
+                      <?php if(isset($_SESSION['type']) AND $_SESSION['type'] == "Company") : ?>
+                      <a class="dropdown-item" href="<?php echo APPURL; ?>/users/show_applicants.php?id=<?php echo $_SESSION['id']; ?>">Show Applicants</a>
+                      <?php endif; ?>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="<?php echo APPURL; ?>/auth/logout.php">Logout</a>
                     </div>

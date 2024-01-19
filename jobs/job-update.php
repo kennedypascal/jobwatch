@@ -91,7 +91,7 @@
 
          ]);
 
-         header("location: ".APPURL."/jobs/update-job.php?id=".$id."");
+         header("location: ".APPURL."/jobs/job-update.php?id=".$id."");
         
       }
     }
@@ -145,15 +145,15 @@
               <div class="form-group">
                 <label for="job-region">Job Region</label>
                 <select name="job_region" class="selectpicker border rounded" id="job-region" data-style="btn-black" data-width="100%" data-live-search="true" title="Select Region">
-                      <option>Anywhere</option>
-                      <option>Accra</option>
-                      <option>Tema</option>
-                      <option>Ho</option>
-                      <option>Kumasi</option>
-                      <option>Wa</option>
-                      <option>Temale</option>
-                      <option>Hohoe</option>
-                      <option>Cape Coast</option>
+                <option>Anywhere</option>
+                      <option>Ghana</option>
+                      <option>Nigeria</option>
+                      <option>South Africa</option>
+                      <option>Tunisia</option>
+                      <option>Mauritius</option>
+                      <option>Madagascar</option>
+                      <option>Kenya</option>
+                      <option>Tanzania</option>
                     </select>
               </div>
 

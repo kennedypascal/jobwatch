@@ -38,6 +38,7 @@
                     $_SESSION['type'] = $select['type'];
                     $_SESSION['email'] = $select['email'];
                     $_SESSION['image'] = $select['img'];
+                    $_SESSION['cv'] = $select['cv'];
 
                     header("location: ".APPURL."");
                 }else {
@@ -49,7 +50,7 @@
             }
 
         }
-    }
+    } 
 
 
 
@@ -81,14 +82,14 @@
 
               <div class="row form-group">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Email</label>
-                  <input type="email" id="fname" class="form-control" placeholder="Email address" name="email">
+                  <label class="text-black" for="email">Email</label>
+                  <input type="email" id="email" class="form-control" placeholder="Email address" name="email">
                 </div>
               </div>
               <div class="row form-group mb-4">
                 <div class="col-md-12 mb-3 mb-md-0">
-                  <label class="text-black" for="fname">Password</label>
-                  <input type="password" id="fname" class="form-control" placeholder="Password" name="password">
+                  <label class="text-black" for="pass">Password</label>
+                  <input type="password" id="pass" class="form-control" placeholder="Password" name="password">
                 </div>
               </div>
 
