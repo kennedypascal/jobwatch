@@ -1,4 +1,5 @@
-JobBoard Website
+JobBoard
+
 
 Description
 
@@ -48,3 +49,6 @@ This project uses Bootstrap for styling.
 Logos in the "Company We've Helped" section are trademarks of their respective companies.
 
 Team
+Kennedy kpor
+Beatrice Addison Winful
+Anthony Yeboah 
